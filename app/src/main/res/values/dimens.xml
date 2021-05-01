@@ -5,4 +5,10 @@
     <dimen name="text24">24sp</dimen>
     <dimen name="text16">16sp</dimen>
     <dimen name="text8">8sp</dimen>
+    <dimen name="text10">10sp</dimen>
+    <dimen name="text20">20sp</dimen>
+    <dimen name="margin70">70dp</dimen>
+    <dimen name="text5">5sp</dimen>
+    <dimen name="text6">6sp</dimen>
+    <dimen name="margin100">100dp</dimen>
 </resources>
