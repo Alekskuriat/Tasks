@@ -3,6 +3,8 @@ package com.example.tasks.notePackage;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.tasks.ActivityAndFragments.MainActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,19 +12,44 @@ public class NotesRepository implements Parcelable {
 
     ArrayList<Note> notes = new ArrayList<>();
 
-    public NotesRepository() {
-        Note.setNumber();
-        notes.add(new Note("Первая заметка","Заметка номер 1"));
-        notes.add(new Note("Втрорая заметка","Заметка номер 2Заметка номер 2Заметка номер 2Заметка номер 2Заметка номер 2Заметка номер 2Заметка номер 2"));
-        notes.add(new Note("Третья заметка","Заметка номер 3"));
-        notes.add(new Note("Четвертая заметка","Заметка номер 4"));
-        notes.add(new Note("Пятая заметка","Заметка номер 5"));
-        notes.add(new Note("Шестая заметка","Заметка номер 6"));
-        notes.add(new Note("Седьмая заметка","Заметка номер 7"));
-        notes.add(new Note("Восьмая заметка","Заметка номер 8"));
-        notes.add(new Note("Девятая заметка","Заметка номер 9"));
-        notes.add(new Note("Десятая заметка","Заметка номер 10"));
 
+    public NotesRepository() {
+
+    }
+
+    public void setNote(Note note) {
+        notes.add(note);
+    }
+
+    public void editNote(Note note){
+        for (int i = 0; i < notes.size(); i++) {
+            if(note.getSerialNumber().equals(notes.get(i).getSerialNumber())){
+                notes.set(i , note);
+            }
+        }
+
+    }
+
+    public Note getNote(int index){
+        return notes.get(index - 1);
+    }
+
+    public void deleteNote(Note note) {
+        if (notes.size() > 0){
+            notes.remove(note);
+        }
+
+    }
+
+    public String getLastNumberNote(){
+        if (notes.size() > 0) {
+            return notes.get(notes.size() - 1).getSerialNumber();
+        } else return String.valueOf(0);
+    }
+
+
+    public int getSize() {
+        return notes.size();
     }
 
     protected NotesRepository(Parcel in) {
@@ -44,6 +71,9 @@ public class NotesRepository implements Parcelable {
     public List<Note> getNotes() {
         return notes;
     }
+    public void setNotes(ArrayList<Note> list) {
+        notes = list;
+    }
 
     @Override
     public int describeContents() {
@@ -53,5 +83,14 @@ public class NotesRepository implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeTypedList(notes);
+    }
+
+    public Note getNoteforSerialNumber(int number) {
+        for (int i = 0; i < notes.size(); i++) {
+            if(Integer.parseInt(notes.get(i).getSerialNumber()) == number){
+                return notes.get(i+1);
+            }
+        }
+        return notes.get(0);
     }
 }

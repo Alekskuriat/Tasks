@@ -6,33 +6,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ActivityAndFragments.MainActivity">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/list_fragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:name="com.example.tasks.ActivityAndFragments.NotesList"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_add_note"
+        app:layout_constraintTop_toBottomOf="@id/app_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/details_fragment" />
 
-    <Button
-        android:id="@+id/btn_add_note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin16"
-        android:fontFamily="@font/montserrat_alternates"
-        app:layout_constraintStart_toStartOf="@id/list_fragment"
-        app:layout_constraintEnd_toEndOf="@id/list_fragment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="@string/add_note" />
+
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/details_fragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_layout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/list_fragment"
         tools:background="@color/teal_200" />

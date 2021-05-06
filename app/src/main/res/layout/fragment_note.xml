@@ -41,8 +41,9 @@
         android:layout_width="60dp"
         android:layout_height="40dp"
         android:fontFamily="@font/montserrat_alternates"
-        android:text="@string/delete"
         android:textSize="@dimen/text5"
+        android:drawableTop="@drawable/ic_baseline_delete_24"
+        android:drawableTint="@color/white"
         app:layout_constraintBottom_toTopOf="@id/data_view"
         app:layout_constraintStart_toStartOf="@id/data_view" />
 

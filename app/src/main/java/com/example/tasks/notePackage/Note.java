@@ -6,6 +6,7 @@ package com.example.tasks.notePackage;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.tasks.ActivityAndFragments.NotesList;
 import com.example.tasks.TimeAndDate.TimeAndDate;
 
 
@@ -14,20 +15,17 @@ public class Note implements Parcelable {
     private String name;
     private String content;
     private String dateTime;
-    private static int number = 0;
+    //private static int number = 0;
     private int serialNumber;
-   // private final ZonedDateTime dateTime;
 
-    public Note(String name, String content) {
+    public Note(String name, String content, int number) {
         this.name = name;
         this.content = content;
         serialNumber = ++number;
         dateTime = new TimeAndDate().getTimeAndDate();
     }
 
-    public static void setNumber() {
-        Note.number = 0;
-    }
+
 
     public String getName() {
         return name;

@@ -1,16 +1,23 @@
 package com.example.tasks.ActivityAndFragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tasks.Observer;
 import com.example.tasks.Publisher;
@@ -31,12 +38,16 @@ public class DetailsNote extends Fragment implements Observer {
 
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     public static DetailsNote newInstance(Note note) {
         DetailsNote fragment = new DetailsNote();
-
         Bundle bundle = new Bundle();
         bundle.putParcelable(ARG_NOTE, note);
-
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -66,6 +77,7 @@ public class DetailsNote extends Fragment implements Observer {
         return inflater.inflate(R.layout.fragment_note_detail, container, false);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -78,17 +90,51 @@ public class DetailsNote extends Fragment implements Observer {
         Note note = getArguments().getParcelable(ARG_NOTE);
 
         nameNote.setText(note.getName());
-        title.setText("Заметка №" + note.getSerialNumber());
+        title.setText(getString(R.string.note_number).concat(note.getSerialNumber()));
         noteDetails.setText(note.getContent());
         dateAndTime.setText(note.getDateTime());
+
+    }
+
+    public Note getNote(){
+        Note note = getArguments().getParcelable(ARG_NOTE);
+        return note;
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void updateNote(Note note) {
         nameNote.setText(note.getName());
-        title.setText("Заметка №" + note.getSerialNumber());
+        title.setText(getString(R.string.note_number).concat(note.getSerialNumber()));
         noteDetails.setText(note.getContent());
         dateAndTime.setText(note.getDateTime());
     }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.details_notes_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.delete_btn_menu){
+            Toast.makeText(requireContext(), this.title.getText(), Toast.LENGTH_SHORT).show();
+        }
+        /*if (item.getItemId() == R.id.edit_btn_menu){
+            Toast.makeText(requireContext(), "Кнопка редактировать", Toast.LENGTH_SHORT).show();
+        }*/
+        return super.onOptionsItemSelected(item);
+    }
+
+    public static DetailsNote instOf(String s){
+        Bundle args = new Bundle();
+        args.putString("Note num", s);
+        DetailsNote frg = new DetailsNote();
+        frg.setArguments(args);
+        return frg;
+    }
+
+
 }
