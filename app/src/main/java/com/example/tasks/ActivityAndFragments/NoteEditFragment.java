@@ -20,6 +20,7 @@ import com.example.tasks.notePackage.Note;
 public class NoteEditFragment extends Fragment {
 
     private static final String ARG_NOTE = "ARG_NOTE";
+    private boolean isLandscape = false;
     private EditText nameNote;
     private EditText contentNote;
     private TextView numberNote;
@@ -28,6 +29,7 @@ public class NoteEditFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isLandscape = getResources().getBoolean(R.bool.isLandscape);
     }
 
     public static NoteEditFragment newInstance(Note note) {
@@ -56,11 +58,24 @@ public class NoteEditFragment extends Fragment {
         createNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NotesList.notes.editNote(new Note(String.valueOf(nameNote.getText()), String.valueOf(contentNote.getText()), Integer.parseInt(note.getSerialNumber()) - 1));
-                FragmentManager fragmentManager = getParentFragmentManager();
-                fragmentManager.popBackStack();
-                Save.save(getActivity());
+                Note newNote = new Note(String.valueOf(nameNote.getText()), String.valueOf(contentNote.getText()), Integer.parseInt(note.getSerialNumber()) - 1);
+                if (isLandscape) {
+                    NotesList.notes.editNote(newNote);
+                    FragmentManager fragmentManager = getParentFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.list_fragment, new NotesList())
+                            .replace(R.id.details_fragment, DetailsNote.newInstance(newNote))
+                            .commit();
 
+                } else {
+                    NotesList.notes.editNote(newNote);
+                    FragmentManager fragmentManager = getParentFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, DetailsNote.newInstance(newNote))
+                            .commit();
+
+                }
+                Save.save(getActivity());
             }
         });
     }

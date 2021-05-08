@@ -88,25 +88,20 @@ public class DetailsNote extends Fragment implements Observer {
         dateAndTime = view.findViewById(R.id.date_details);
 
         Note note = getArguments().getParcelable(ARG_NOTE);
-
-        nameNote.setText(note.getName());
-        title.setText(getString(R.string.note_number).concat(note.getSerialNumber()));
-        noteDetails.setText(note.getContent());
-        dateAndTime.setText(note.getDateTime());
+        if (note != null){
+            nameNote.setText(note.getName());
+            title.setText(getResources().getString(R.string.title_template, note.getSerialNumber()));
+            noteDetails.setText(note.getContent());
+            dateAndTime.setText(note.getDateTime());
+        } else  title.setText(getString(R.string.error));
 
     }
-
-    public Note getNote(){
-        Note note = getArguments().getParcelable(ARG_NOTE);
-        return note;
-    }
-
 
     @SuppressLint("SetTextI18n")
     @Override
     public void updateNote(Note note) {
         nameNote.setText(note.getName());
-        title.setText(getString(R.string.note_number).concat(note.getSerialNumber()));
+        title.setText(getResources().getString(R.string.title_template, note.getSerialNumber()));
         noteDetails.setText(note.getContent());
         dateAndTime.setText(note.getDateTime());
     }
@@ -116,25 +111,6 @@ public class DetailsNote extends Fragment implements Observer {
         inflater.inflate(R.menu.details_notes_menu, menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        if (item.getItemId() == R.id.delete_btn_menu){
-            Toast.makeText(requireContext(), this.title.getText(), Toast.LENGTH_SHORT).show();
-        }
-        /*if (item.getItemId() == R.id.edit_btn_menu){
-            Toast.makeText(requireContext(), "Кнопка редактировать", Toast.LENGTH_SHORT).show();
-        }*/
-        return super.onOptionsItemSelected(item);
-    }
-
-    public static DetailsNote instOf(String s){
-        Bundle args = new Bundle();
-        args.putString("Note num", s);
-        DetailsNote frg = new DetailsNote();
-        frg.setArguments(args);
-        return frg;
-    }
 
 
 }

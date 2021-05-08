@@ -3,8 +3,6 @@ package com.example.tasks.notePackage;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.tasks.ActivityAndFragments.MainActivity;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +29,10 @@ public class NotesRepository implements Parcelable {
     }
 
     public Note getNote(int index){
-        return notes.get(index - 1);
+        if (notes.size() > 0){
+            return notes.get(index - 1);
+        }
+      return null;
     }
 
     public void deleteNote(Note note) {

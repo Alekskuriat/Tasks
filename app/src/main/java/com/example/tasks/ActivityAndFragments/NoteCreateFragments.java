@@ -19,8 +19,7 @@ import com.example.tasks.notePackage.Note;
 public class NoteCreateFragments extends Fragment {
 
 
-
-
+    private boolean isLandscape = false;
     private EditText nameNote;
     private EditText contentNote;
     private TextView numberNote;
@@ -29,6 +28,7 @@ public class NoteCreateFragments extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isLandscape = getResources().getBoolean(R.bool.isLandscape);
     }
 
     @Override
@@ -45,10 +45,22 @@ public class NoteCreateFragments extends Fragment {
         createNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NotesList.notes.setNote(new Note(nameNote.getText().toString(), contentNote.getText().toString(), Integer.parseInt(NotesList.notes.getLastNumberNote())));
-                Save.save(getActivity());
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.popBackStack();
+                Note note = new Note(nameNote.getText().toString(), contentNote.getText().toString(), Integer.parseInt(NotesList.notes.getLastNumberNote()));
+                if (isLandscape) {
+                    NotesList.notes.setNote(note);
+                    Save.save(getActivity());
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.details_fragment, DetailsNote.newInstance(note))
+                            .replace(R.id.list_fragment, new NotesList())
+                            .commit();
+                } else {
+                    NotesList.notes.setNote(note);
+                    Save.save(getActivity());
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    fragmentManager.popBackStack();
+                }
+
             }
         });
     }

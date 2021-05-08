@@ -8,26 +8,22 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.tasks.OnNoteClicked;
+import com.example.tasks.NoteClickListener;
 import com.example.tasks.PublisherHolder;
 import com.example.tasks.R;
 import com.example.tasks.notePackage.Note;
 import com.example.tasks.notePackage.NotesRepository;
 
-import java.util.List;
-
 public class NotesList extends Fragment {
 
-    private OnNoteClicked onNoteClicked;
+    private NoteClickListener noteClickListener;
     static NotesRepository notes = new NotesRepository();;
     LinearLayout notesList;
     TextView nameNote;
@@ -36,6 +32,7 @@ public class NotesList extends Fragment {
     TextView dateAndTime;
     Button btnDeleteNote;
     View noteView;
+    private boolean isLandscape = false;
 
     public NotesList() {
 
@@ -44,14 +41,14 @@ public class NotesList extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof OnNoteClicked) {
-            onNoteClicked = (OnNoteClicked) context;
+        if (context instanceof NoteClickListener) {
+            noteClickListener = (NoteClickListener) context;
         }
     }
 
     @Override
     public void onDetach() {
-        onNoteClicked = null;
+        noteClickListener = null;
         super.onDetach();
     }
 
@@ -71,6 +68,7 @@ public class NotesList extends Fragment {
 
     private void createListNotes(View view, @Nullable Bundle savedInstanceState) {
 
+        isLandscape = getResources().getBoolean(R.bool.isLandscape);
         notesList = view.findViewById(R.id.notes_list);
         if (notes.getSize() > 0){
             for (Note note : notes.getNotes()) {
@@ -99,7 +97,20 @@ public class NotesList extends Fragment {
                     @Override
                     public void onClick(View v) {
                         notes.deleteNote(note);
-                        getActivity().recreate();
+                        if (isLandscape){
+                            FragmentManager fragmentManager = getParentFragmentManager();
+                            Fragment fr = fragmentManager.findFragmentById(R.id.details_fragment);
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.list_fragment, new NotesList())
+                                    .remove(fr)
+                                    .commit();
+                        } else {
+                            FragmentManager fragmentManager = getParentFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.container, new NotesList())
+                                    .commit();
+                        }
+                    Save.save(getActivity());
                     }
                 });
                 notesList.addView(noteView);
@@ -114,8 +125,8 @@ public class NotesList extends Fragment {
             holder.getPublisher().notify(note);
         }
 
-        if (onNoteClicked != null) {
-            onNoteClicked.onNoteClicked(note);
+        if (noteClickListener != null) {
+            noteClickListener.onNoteClicked(note);
         }
     }
 }
