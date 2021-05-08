@@ -6,9 +6,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.tasks.NoteClickListener;
+import com.example.tasks.notePackage.NotesAdapter;
 import com.example.tasks.PublisherHolder;
 import com.example.tasks.R;
 import com.example.tasks.notePackage.Note;
@@ -24,7 +29,9 @@ import com.example.tasks.notePackage.NotesRepository;
 public class NotesList extends Fragment {
 
     private NoteClickListener noteClickListener;
-    static NotesRepository notes = new NotesRepository();;
+    public static NotesRepository notes = new NotesRepository();
+    private RecyclerView notesListRecycler;
+    private NotesAdapter adapter;
     LinearLayout notesList;
     TextView nameNote;
     TextView numberNote;
@@ -55,67 +62,59 @@ public class NotesList extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_notes_list, container, false);
+        return inflater.inflate(R.layout.recycler_view_list, container, false);
     }
+
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        requireActivity().getMenuInflater().inflate(R.menu.menu_list_context, menu);
+    }
+
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.action_open) {
+            adapter.openNote(adapter.getItemAt(adapter.getLongClickedPosition()));
+            return true;
+        }
+
+        if(item.getItemId()==R.id.action_delete){
+            adapter.delete(adapter.getItemAt(adapter.getLongClickedPosition()));
+        return true;
+    }
+
+        return super.onContextItemSelected(item);
+
+}
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        createListNotes(view, savedInstanceState);
+        adapter = new NotesAdapter(this);
 
-
-    }
-
-    private void createListNotes(View view, @Nullable Bundle savedInstanceState) {
-
-        isLandscape = getResources().getBoolean(R.bool.isLandscape);
-        notesList = view.findViewById(R.id.notes_list);
-        if (notes.getSize() > 0){
-            for (Note note : notes.getNotes()) {
-                noteView = LayoutInflater.from(requireContext()).inflate(R.layout.fragment_note, notesList, false);
-                noteView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        openNoteDetail(note);
-                    }
-                });
-
-                nameNote = noteView.findViewById(R.id.name_view);
-                nameNote.setText(note.getName());
-
-                numberNote = noteView.findViewById(R.id.numbers_view);
-                numberNote.setText("№" + note.getSerialNumber());
-
-                content = noteView.findViewById(R.id.task_view);
-                content.setText(note.getContent());
-
-                dateAndTime = noteView.findViewById(R.id.data_view);
-                dateAndTime.setText(note.getDateTime());
-
-                btnDeleteNote = noteView.findViewById(R.id.btn_remove_note);
-                btnDeleteNote.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        notes.deleteNote(note);
-                        if (isLandscape){
-                            FragmentManager fragmentManager = getParentFragmentManager();
-                            Fragment fr = fragmentManager.findFragmentById(R.id.details_fragment);
-                            fragmentManager.beginTransaction()
-                                    .replace(R.id.list_fragment, new NotesList())
-                                    .remove(fr)
-                                    .commit();
-                        } else {
-                            FragmentManager fragmentManager = getParentFragmentManager();
-                            fragmentManager.beginTransaction()
-                                    .replace(R.id.container, new NotesList())
-                                    .commit();
-                        }
-                    Save.save(getActivity());
-                    }
-                });
-                notesList.addView(noteView);
+        adapter.setClickListener(new NotesAdapter.NoteClicked() {
+            @Override
+            public void onNoteClicked(Note note) {
+                openNoteDetail(note);
             }
-        }
+        });
+
+        notesListRecycler = view.findViewById(R.id.notes_list_recycler);
+
+        RecyclerView.LayoutManager lm = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
+
+        notesListRecycler.setLayoutManager(lm);
+
+        notesListRecycler.setAdapter(adapter);
+
+        adapter.notifyDataSetChanged();
+
+        DefaultItemAnimator itemAnimator = new DefaultItemAnimator();
+
+        notesListRecycler.setItemAnimator(itemAnimator);
 
     }
 

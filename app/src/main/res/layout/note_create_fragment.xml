@@ -34,8 +34,10 @@
             android:layout_margin="@dimen/margin16"
             android:fontFamily="@font/montserrat_alternates"
             android:gravity="center"
+            android:hint="@string/name_note_edittext"
+            android:inputType="textCapSentences"
             android:textSize="@dimen/text20"
-            android:hint="@string/name_note_edittext"/>
+            android:autofillHints="" />
 
 
         <TextView
@@ -54,8 +56,10 @@
             android:layout_margin="@dimen/margin16"
             android:fontFamily="@font/montserrat_alternates"
             android:gravity="center"
+            android:hint="@string/content_note_edittext"
+            android:inputType="textCapSentences"
             android:textSize="@dimen/text16"
-            android:hint="@string/content_note_edittext"/>
+            android:autofillHints="" />
 
         <Button
             android:id="@+id/btn_create_note"

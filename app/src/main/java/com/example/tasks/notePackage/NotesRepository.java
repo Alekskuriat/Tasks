@@ -3,13 +3,14 @@ package com.example.tasks.notePackage;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.tasks.ActivityAndFragments.Save;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class NotesRepository implements Parcelable {
 
     ArrayList<Note> notes = new ArrayList<>();
-
 
     public NotesRepository() {
 
@@ -25,7 +26,6 @@ public class NotesRepository implements Parcelable {
                 notes.set(i , note);
             }
         }
-
     }
 
     public Note getNote(int index){
@@ -39,18 +39,12 @@ public class NotesRepository implements Parcelable {
         if (notes.size() > 0){
             notes.remove(note);
         }
-
     }
 
     public String getLastNumberNote(){
         if (notes.size() > 0) {
             return notes.get(notes.size() - 1).getSerialNumber();
         } else return String.valueOf(0);
-    }
-
-
-    public int getSize() {
-        return notes.size();
     }
 
     protected NotesRepository(Parcel in) {
@@ -86,12 +80,4 @@ public class NotesRepository implements Parcelable {
         dest.writeTypedList(notes);
     }
 
-    public Note getNoteforSerialNumber(int number) {
-        for (int i = 0; i < notes.size(); i++) {
-            if(Integer.parseInt(notes.get(i).getSerialNumber()) == number){
-                return notes.get(i+1);
-            }
-        }
-        return notes.get(0);
-    }
 }

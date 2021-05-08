@@ -35,6 +35,9 @@
     <string name="error">Ошибка</string>
     <string name="fab_content_desc">Добавить заметку</string>
     <string name="close_drawer">Закрыто</string>
+    <string name="action_open">Открыть</string>
+    <string name="action_edit">Редактировать</string>
+    <string name="action_delete">Удалить</string>
 
 
 </resources>

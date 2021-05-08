@@ -34,10 +34,7 @@ public class MainActivity extends AppCompatActivity implements NoteClickListener
 
     private Publisher publisher = new Publisher();
     private boolean isLandscape = false;
-    private AppBarConfiguration mAppBarConfiguration;
     private FloatingActionButton floatingActionButton;
-
-
 
     @Override
     protected void onResume() {
@@ -92,10 +89,8 @@ public class MainActivity extends AppCompatActivity implements NoteClickListener
                             .addToBackStack("1")
                             .commit();
                 }
-
             }
         });
-
     }
 
     private void initNavigationDrawer() {
@@ -105,8 +100,6 @@ public class MainActivity extends AppCompatActivity implements NoteClickListener
         @SuppressLint("ResourceType")
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer);
         actionBarDrawerToggle.syncState();
-
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -122,18 +115,13 @@ public class MainActivity extends AppCompatActivity implements NoteClickListener
                 return false;
             }
         });
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.activity_menu, menu);
-
         return true;
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -145,10 +133,7 @@ public class MainActivity extends AppCompatActivity implements NoteClickListener
             Note note = fr.getArguments().getParcelable("ARG_NOTE");
 
             if (item.getItemId() == R.id.edit_btn_menu) {
-                fragmentManager.beginTransaction()
-                        .replace(R.id.details_fragment, NoteEditFragment.newInstance(note))
-                        .addToBackStack(null)
-                        .commit();
+                editNote();
             }
 
             if (item.getItemId() == R.id.delete_btn_menu) {
@@ -190,6 +175,16 @@ public class MainActivity extends AppCompatActivity implements NoteClickListener
         Save.save(getApplicationContext());
         return super.onOptionsItemSelected(item);
 
+    }
+
+    public void editNote() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fr = fragmentManager.findFragmentById(R.id.details_fragment);
+        Note note = fr.getArguments().getParcelable("ARG_NOTE");
+        fragmentManager.beginTransaction()
+                .replace(R.id.details_fragment, NoteEditFragment.newInstance(note))
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

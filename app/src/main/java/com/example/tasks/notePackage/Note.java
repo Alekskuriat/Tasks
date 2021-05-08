@@ -14,9 +14,8 @@ public class Note implements Parcelable {
 
     private String name;
     private String content;
-    private String dateTime;
-    //private static int number = 0;
-    private int serialNumber;
+    private final String dateTime;
+    private final int serialNumber;
 
     public Note(String name, String content, int number) {
         this.name = name;

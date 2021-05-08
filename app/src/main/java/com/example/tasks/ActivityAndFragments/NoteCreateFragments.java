@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.tasks.notePackage.NotesAdapter;
 import com.example.tasks.R;
 import com.example.tasks.notePackage.Note;
 
@@ -24,6 +25,7 @@ public class NoteCreateFragments extends Fragment {
     private EditText contentNote;
     private TextView numberNote;
     private Button createNote;
+    private NotesAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public class NoteCreateFragments extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        adapter = new NotesAdapter(this);
         nameNote = view.findViewById(R.id.name_create);
         contentNote = view.findViewById(R.id.note_details_create);
         numberNote = view.findViewById(R.id.title_create);
@@ -47,15 +49,16 @@ public class NoteCreateFragments extends Fragment {
             public void onClick(View v) {
                 Note note = new Note(nameNote.getText().toString(), contentNote.getText().toString(), Integer.parseInt(NotesList.notes.getLastNumberNote()));
                 if (isLandscape) {
-                    NotesList.notes.setNote(note);
+                    adapter.addData(note);
                     Save.save(getActivity());
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     fragmentManager.beginTransaction()
                             .replace(R.id.details_fragment, DetailsNote.newInstance(note))
                             .replace(R.id.list_fragment, new NotesList())
                             .commit();
+
                 } else {
-                    NotesList.notes.setNote(note);
+                    adapter.addData(note);
                     Save.save(getActivity());
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     fragmentManager.popBackStack();
