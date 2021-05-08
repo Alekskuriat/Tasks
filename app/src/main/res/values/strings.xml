@@ -2,4 +2,39 @@
     <string name="app_name">Tasks</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="line">- - - - - - - - - - - - - - - - - - - - - - - - - - -</string>
+    <string name="add_note">Добавить заметку</string>
+    <string name="delete">Удалить</string>
+    <string name="edit">Редактировать</string>
+    <string name="action_search">action_one</string>
+    <string name="action_one">action_search</string>
+    <string name="settings">Настройки</string>
+    <string name="main">Меню</string>
+    <string name="favorite">Избранное</string>
+    <string name="search">Поиск</string>
+    <string name="back">Назад</string>
+    <string name="note_number">Заметка №</string>
+    <string name="save_note">Сохранить</string>
+    <string name="name_note_edittext">Введите имя заметки</string>
+    <string name="content_note_edittext">Введите текст</string>
+    <string name="name_note_textview">Имя заметки</string>
+    <string name="content_note_textview">Текст заметки</string>
+    <string name="title_template">Заметка № %s</string>
+    <string name="title_activity_main2">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="openDrawer">Открыть</string>
+    <string name="closeDrawer">Закрыть</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="error">Ошибка</string>
+    <string name="fab_content_desc">Добавить заметку</string>
+    <string name="close_drawer">Закрыто</string>
+
+
 </resources>

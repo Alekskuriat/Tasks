@@ -8,16 +8,45 @@
 
 
     <TextView
+        android:id="@+id/name_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin16"
+        android:layout_marginTop="@dimen/margin4"
+        android:fontFamily="@font/montserrat_alternates"
+        android:textSize="@dimen/text16"
+        app:layout_constraintTop_toBottomOf="@id/numbers_view"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteX="16dp"
+        tools:text="Имя заметки" />
+
+
+    <TextView
         android:id="@+id/task_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin4"
         android:layout_marginStart="@dimen/margin16"
-        android:textSize="@dimen/text16"
+        android:layout_marginTop="@dimen/margin4"
+        android:layout_marginEnd="@dimen/margin100"
         android:fontFamily="@font/montserrat_alternates"
-        app:layout_constraintTop_toBottomOf="@id/numbers_view"
+        android:textSize="@dimen/text10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name_view"
         tools:layout_editor_absoluteX="16dp"
         tools:text="Заметка заметка заметка..." />
+
+
+    <Button
+        android:id="@+id/btn_remove_note"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:fontFamily="@font/montserrat_alternates"
+        android:textSize="@dimen/text5"
+        android:drawableTop="@drawable/ic_baseline_delete_24"
+        android:drawableTint="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/data_view"
+        app:layout_constraintStart_toStartOf="@id/data_view" />
+
 
     <TextView
         android:id="@+id/numbers_view"
@@ -35,8 +64,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin4"
         android:layout_marginEnd="@dimen/margin16"
-        android:textSize="@dimen/text8"
         android:fontFamily="@font/montserrat_alternates"
+        android:textSize="@dimen/text8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/task_view"
         tools:text="21.04.2021 18:36" />
@@ -46,7 +75,7 @@
         android:id="@+id/line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="- - - - - - - - - - - - - - - - - - - - - - - - - - -"
+        android:text="@string/line"
         android:textSize="@dimen/text16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
