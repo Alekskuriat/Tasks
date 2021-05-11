@@ -10,13 +10,14 @@ import java.util.List;
 
 public class NotesRepository implements Parcelable {
 
-    ArrayList<Note> notes = new ArrayList<>();
+    private ArrayList<Note> notes = new ArrayList<>();
 
     public NotesRepository() {
 
     }
 
-    public void setNote(Note note) {
+
+    public void addNote(Note note) {
         notes.add(note);
     }
 
@@ -27,6 +28,7 @@ public class NotesRepository implements Parcelable {
             }
         }
     }
+
 
     public Note getNote(int index){
         if (notes.size() > 0){

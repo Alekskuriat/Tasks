@@ -1,8 +1,6 @@
 package com.example.tasks.notePackage;
 
 
-
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -16,14 +14,15 @@ public class Note implements Parcelable {
     private String content;
     private final String dateTime;
     private final int serialNumber;
+    private String datePlan;
 
-    public Note(String name, String content, int number) {
+    public Note(String name, String content, int number, String datePlan) {
         this.name = name;
         this.content = content;
+        this.datePlan = datePlan;
         serialNumber = ++number;
         dateTime = new TimeAndDate().getTimeAndDate();
     }
-
 
 
     public String getName() {
@@ -42,18 +41,9 @@ public class Note implements Parcelable {
         return dateTime;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
     public String getContent() {
         return content;
     }
-
-
-
-
-
 
     protected Note(Parcel in) {
         name = in.readString();
@@ -87,4 +77,7 @@ public class Note implements Parcelable {
         }
     };
 
+    public String getDatePlan() {
+        return datePlan;
+    }
 }

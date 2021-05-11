@@ -38,6 +38,8 @@
     <string name="action_open">Открыть</string>
     <string name="action_edit">Редактировать</string>
     <string name="action_delete">Удалить</string>
+    <string name="note_date_plan">Запланированная дата</string>
+    <string name="date_plan">Запланнированная дата:</string>
 
 
 </resources>

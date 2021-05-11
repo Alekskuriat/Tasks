@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginHorizontal="@dimen/margin16"
     android:layout_marginVertical="@dimen/margin8">
 
@@ -16,22 +16,20 @@
 
         <TextView
             android:id="@+id/name_view"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/numbers_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin16"
             android:layout_marginTop="@dimen/margin4"
             android:fontFamily="@font/montserrat_alternates"
             android:textSize="@dimen/text16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/numbers_view"
             tools:layout_editor_absoluteX="16dp"
             tools:text="Имя заметки" />
 
 
         <TextView
             android:id="@+id/task_view"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin16"
@@ -39,37 +37,37 @@
             android:layout_marginEnd="@dimen/margin100"
             android:fontFamily="@font/montserrat_alternates"
             android:textSize="@dimen/text10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_view"
             tools:layout_editor_absoluteX="16dp"
             tools:text="Заметка заметка заметка..." />
 
 
         <Button
             android:id="@+id/btn_remove_note"
-            app:layout_constraintBottom_toTopOf="@id/data_view"
-            app:layout_constraintStart_toStartOf="@id/data_view"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:drawableTop="@drawable/ic_baseline_delete_24"
             android:drawableTint="@color/white"
             android:fontFamily="@font/montserrat_alternates"
-            android:textSize="@dimen/text5" />
+            android:textSize="@dimen/text5"
+            app:layout_constraintBottom_toTopOf="@id/data_view"
+            app:layout_constraintEnd_toEndOf="@id/data_view" />
 
 
         <TextView
             android:id="@+id/numbers_view"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin16"
             android:layout_marginTop="@dimen/margin8"
             android:fontFamily="@font/montserrat_alternates"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="№1" />
 
         <TextView
             android:id="@+id/data_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/task_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin4"
@@ -77,9 +75,31 @@
             android:layout_marginBottom="@dimen/margin16"
             android:fontFamily="@font/montserrat_alternates"
             android:textSize="@dimen/text8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/task_view"
             tools:text="21.04.2021 18:36" />
 
+        <TextView
+            android:id="@+id/date_plan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin16"
+            android:layout_marginEnd="@dimen/margin8"
+            android:fontFamily="@font/montserrat_alternates"
+            android:text="@string/date_plan"
+            android:textSize="@dimen/text8"
+            app:layout_constraintEnd_toStartOf="@id/note_date_plan"
+            app:layout_constraintTop_toTopOf="@id/note_date_plan" />
 
+        <TextView
+            android:id="@+id/note_date_plan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_alternates"
+            android:textSize="@dimen/text8"
+            app:layout_constraintStart_toStartOf="@id/data_view"
+            app:layout_constraintTop_toTopOf="@id/numbers_view"
+            tools:text="21.04.2021" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
