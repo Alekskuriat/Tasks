@@ -34,14 +34,17 @@
             android:layout_margin="@dimen/margin16"
             android:fontFamily="@font/montserrat_alternates"
             android:gravity="center"
+            android:hint="@string/name_note_edittext"
+            android:inputType="textCapSentences"
             android:textSize="@dimen/text20"
-            android:hint="@string/name_note_edittext"/>
+            android:autofillHints="" />
+
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin16"
+            android:layout_marginTop="@dimen/margin8"
             android:fontFamily="@font/montserrat_alternates"
             android:gravity="center"
             android:text="@string/content_note_textview" />
@@ -54,8 +57,36 @@
             android:layout_margin="@dimen/margin16"
             android:fontFamily="@font/montserrat_alternates"
             android:gravity="center"
+            android:hint="@string/content_note_edittext"
+            android:inputType="textCapSentences"
             android:textSize="@dimen/text16"
-            android:hint="@string/content_note_edittext"/>
+            android:autofillHints="" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin16"
+            android:fontFamily="@font/montserrat_alternates"
+            android:gravity="center"
+            android:text="@string/note_date_plan" />
+        <TextView
+            android:id="@+id/note_date_plan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin16"
+            android:fontFamily="@font/montserrat_alternates"
+            android:gravity="center" />
+
+
+        <DatePicker
+            android:id="@+id/datePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:calendarViewShown="false"
+            android:spinnersShown="true"
+            android:layout_gravity="center"
+            android:datePickerMode="spinner"
+            />
 
         <Button
             android:id="@+id/btn_create_note"
@@ -66,6 +97,7 @@
             android:fontFamily="@font/montserrat_alternates"
             android:text="@string/save_note"
             android:textSize="@dimen/text8"/>
+
 
 
     </LinearLayout>

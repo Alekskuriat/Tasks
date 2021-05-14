@@ -24,15 +24,18 @@ import com.example.tasks.Publisher;
 import com.example.tasks.PublisherHolder;
 import com.example.tasks.R;
 import com.example.tasks.notePackage.Note;
+import com.example.tasks.notePackage.NotesRepository;
 
 
 public class DetailsNote extends Fragment implements Observer {
 
     private static final String ARG_NOTE = "ARG_NOTE";
+    private boolean isLandscape = false;
     private TextView title;
     private TextView noteDetails;
     private TextView dateAndTime;
     private TextView nameNote;
+    private NotesRepository notesRepository;
 
     public DetailsNote() {
 
@@ -42,6 +45,7 @@ public class DetailsNote extends Fragment implements Observer {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        isLandscape = getResources().getBoolean(R.bool.isLandscape);
     }
 
     public static DetailsNote newInstance(Note note) {
@@ -57,6 +61,8 @@ public class DetailsNote extends Fragment implements Observer {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        MainActivity activity = (MainActivity) context;
+        notesRepository = activity.getNotesRepository();
         if (context instanceof PublisherHolder) {
             publisher = ((PublisherHolder) context).getPublisher();
             publisher.addObserver(this);
@@ -87,13 +93,16 @@ public class DetailsNote extends Fragment implements Observer {
         noteDetails = view.findViewById(R.id.note_details);
         dateAndTime = view.findViewById(R.id.date_details);
 
-        Note note = getArguments().getParcelable(ARG_NOTE);
-        if (note != null){
-            nameNote.setText(note.getName());
-            title.setText(getResources().getString(R.string.title_template, note.getSerialNumber()));
-            noteDetails.setText(note.getContent());
-            dateAndTime.setText(note.getDateTime());
-        } else  title.setText(getString(R.string.error));
+        assert getArguments() != null;
+        if (getArguments().getParcelable(ARG_NOTE) != null) {
+            Note note = getArguments().getParcelable(ARG_NOTE);
+            if (note != null) {
+                nameNote.setText(note.getName());
+                title.setText(getResources().getString(R.string.title_template, note.getSerialNumber()));
+                noteDetails.setText(note.getContent());
+                dateAndTime.setText(note.getDateTime());
+            }
+        } else title.setText(getString(R.string.error));
 
     }
 
@@ -111,6 +120,77 @@ public class DetailsNote extends Fragment implements Observer {
         inflater.inflate(R.menu.details_notes_menu, menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
+        if (isLandscape) {
+            FragmentManager fragmentManager = getParentFragmentManager();
+            Fragment fr = fragmentManager.findFragmentById(R.id.details_fragment);
+            assert fr != null;
+            assert fr.getArguments() != null;
+            Note note = fr.getArguments().getParcelable("ARG_NOTE");
+
+            if (item.getItemId() == R.id.edit_btn_menu) {
+                editNote();
+            }
+
+            if (item.getItemId() == R.id.delete_btn_menu) {
+                int positionPreviousNote = notesRepository.getNotes().indexOf(note);
+                notesRepository.deleteNote(note);
+                if (notesRepository.getNote(1) != null && positionPreviousNote > 0) {
+                    Note notePrevious = notesRepository.getNote(positionPreviousNote);
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.list_fragment, new NotesList())
+                            .replace(R.id.details_fragment, DetailsNote.newInstance(notePrevious))
+                            .commit();
+                } else {
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.list_fragment, new NotesList())
+                            .remove(fr)
+                            .commit();
+                }
+
+            }
+
+        } else {
+            FragmentManager fragmentManager = getParentFragmentManager();
+            Fragment fr = fragmentManager.findFragmentById(R.id.container);
+            assert fr != null;
+            assert fr.getArguments() != null;
+            Note note = fr.getArguments().getParcelable("ARG_NOTE");
+            if (item.getItemId() == R.id.edit_btn_menu) {
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, NoteEditFragment.newInstance(note))
+                        .addToBackStack(null)
+                        .commit();
+            }
+            if (item.getItemId() == R.id.delete_btn_menu) {
+                notesRepository.deleteNote(note);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new NotesList())
+                        .commit();
+            }
+        }
+
+        if (getContext() != null)
+            Save.save(getContext());
+        return super.onOptionsItemSelected(item);
+
+
+    }
+
+
+    public void editNote() {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        Fragment fr = fragmentManager.findFragmentById(R.id.details_fragment);
+        if (fr != null) {
+            if (fr.getArguments() != null) {
+                Note note = fr.getArguments().getParcelable("ARG_NOTE");
+                fragmentManager.beginTransaction()
+                        .replace(R.id.details_fragment, NoteEditFragment.newInstance(note))
+                        .commit();
+            }
+        }
+    }
 
 }

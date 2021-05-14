@@ -3,12 +3,14 @@ package com.example.tasks.ActivityAndFragments;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,6 +24,7 @@ import com.example.tasks.Publisher;
 import com.example.tasks.PublisherHolder;
 import com.example.tasks.R;
 import com.example.tasks.notePackage.Note;
+import com.example.tasks.notePackage.NotesRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
@@ -29,14 +32,14 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity implements NoteClickListener, PublisherHolder {
 
     private Publisher publisher = new Publisher();
     private boolean isLandscape = false;
-    private AppBarConfiguration mAppBarConfiguration;
     private FloatingActionButton floatingActionButton;
-
+    private NotesRepository notesRepository = new NotesRepository();
 
 
     @Override
@@ -92,10 +95,8 @@ public class MainActivity extends AppCompatActivity implements NoteClickListener
                             .addToBackStack("1")
                             .commit();
                 }
-
             }
         });
-
     }
 
     private void initNavigationDrawer() {
@@ -105,8 +106,6 @@ public class MainActivity extends AppCompatActivity implements NoteClickListener
         @SuppressLint("ResourceType")
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer);
         actionBarDrawerToggle.syncState();
-
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -122,19 +121,15 @@ public class MainActivity extends AppCompatActivity implements NoteClickListener
                 return false;
             }
         });
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.activity_menu, menu);
-
         return true;
     }
 
-
-
+/*
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -145,10 +140,7 @@ public class MainActivity extends AppCompatActivity implements NoteClickListener
             Note note = fr.getArguments().getParcelable("ARG_NOTE");
 
             if (item.getItemId() == R.id.edit_btn_menu) {
-                fragmentManager.beginTransaction()
-                        .replace(R.id.details_fragment, NoteEditFragment.newInstance(note))
-                        .addToBackStack(null)
-                        .commit();
+                editNote();
             }
 
             if (item.getItemId() == R.id.delete_btn_menu) {
@@ -191,10 +183,20 @@ public class MainActivity extends AppCompatActivity implements NoteClickListener
         return super.onOptionsItemSelected(item);
 
     }
+*/
+
+  /*  public void editNote() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fr = fragmentManager.findFragmentById(R.id.details_fragment);
+        Note note = fr.getArguments().getParcelable("ARG_NOTE");
+        fragmentManager.beginTransaction()
+                .replace(R.id.details_fragment, NoteEditFragment.newInstance(note))
+                .commit();
+    }*/
 
     @Override
     protected void onPause() {
-        Save.save(getApplicationContext());
+        Save.save(this);
         super.onPause();
     }
 
@@ -213,8 +215,12 @@ public class MainActivity extends AppCompatActivity implements NoteClickListener
         }.getType();
         ArrayList<Note> notesList = new ArrayList<>();
         notesList = gson.fromJson(json, type);
-        NotesList.notes.setNotes(notesList);
+        if (notesList == null) {
+            notesList = new ArrayList<>();
+        }
+        notesRepository.setNotes(notesList);
     }
+
 
     @Override
     public Publisher getPublisher() {
@@ -236,5 +242,9 @@ public class MainActivity extends AppCompatActivity implements NoteClickListener
                     .commit();
 
         }
+    }
+
+    public NotesRepository getNotesRepository() {
+        return notesRepository;
     }
 }
