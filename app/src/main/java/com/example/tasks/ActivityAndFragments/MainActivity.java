@@ -215,8 +215,10 @@ public class MainActivity extends AppCompatActivity implements NoteClickListener
         }.getType();
         ArrayList<Note> notesList = new ArrayList<>();
         notesList = gson.fromJson(json, type);
+        if (notesList == null) {
+            notesList = new ArrayList<>();
+        }
         notesRepository.setNotes(notesList);
-        //NotesList.notes.setNotes(notesList);
     }
 
 

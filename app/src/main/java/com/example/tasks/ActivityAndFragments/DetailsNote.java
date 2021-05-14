@@ -94,12 +94,14 @@ public class DetailsNote extends Fragment implements Observer {
         dateAndTime = view.findViewById(R.id.date_details);
 
         assert getArguments() != null;
-        Note note = getArguments().getParcelable(ARG_NOTE);
-        if (note != null) {
-            nameNote.setText(note.getName());
-            title.setText(getResources().getString(R.string.title_template, note.getSerialNumber()));
-            noteDetails.setText(note.getContent());
-            dateAndTime.setText(note.getDateTime());
+        if (getArguments().getParcelable(ARG_NOTE) != null) {
+            Note note = getArguments().getParcelable(ARG_NOTE);
+            if (note != null) {
+                nameNote.setText(note.getName());
+                title.setText(getResources().getString(R.string.title_template, note.getSerialNumber()));
+                noteDetails.setText(note.getContent());
+                dateAndTime.setText(note.getDateTime());
+            }
         } else title.setText(getString(R.string.error));
 
     }
@@ -124,6 +126,8 @@ public class DetailsNote extends Fragment implements Observer {
         if (isLandscape) {
             FragmentManager fragmentManager = getParentFragmentManager();
             Fragment fr = fragmentManager.findFragmentById(R.id.details_fragment);
+            assert fr != null;
+            assert fr.getArguments() != null;
             Note note = fr.getArguments().getParcelable("ARG_NOTE");
 
             if (item.getItemId() == R.id.edit_btn_menu) {
@@ -151,15 +155,17 @@ public class DetailsNote extends Fragment implements Observer {
         } else {
             FragmentManager fragmentManager = getParentFragmentManager();
             Fragment fr = fragmentManager.findFragmentById(R.id.container);
-
+            assert fr != null;
+            assert fr.getArguments() != null;
+            Note note = fr.getArguments().getParcelable("ARG_NOTE");
             if (item.getItemId() == R.id.edit_btn_menu) {
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, NoteEditFragment.newInstance(fr.getArguments().getParcelable("ARG_NOTE")))
+                        .replace(R.id.container, NoteEditFragment.newInstance(note))
                         .addToBackStack(null)
                         .commit();
             }
             if (item.getItemId() == R.id.delete_btn_menu) {
-                notesRepository.deleteNote(fr.getArguments().getParcelable("ARG_NOTE"));
+                notesRepository.deleteNote(note);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new NotesList())
                         .commit();

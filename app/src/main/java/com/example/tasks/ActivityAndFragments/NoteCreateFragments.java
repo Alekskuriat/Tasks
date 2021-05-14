@@ -30,12 +30,9 @@ public class NoteCreateFragments extends Fragment {
     private boolean isLandscape = false;
     private EditText nameNote;
     private EditText contentNote;
-    private TextView numberNote;
-    private Button createNote;
     private NotesAdapter adapter;
     private TextView noteDatePlan;
     private NotesRepository notesRepository;
-    private DatePicker datePicker;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,10 +54,10 @@ public class NoteCreateFragments extends Fragment {
         adapter = new NotesAdapter(this);
         nameNote = view.findViewById(R.id.name_create);
         contentNote = view.findViewById(R.id.note_details_create);
-        numberNote = view.findViewById(R.id.title_create);
-        createNote = view.findViewById(R.id.btn_create_note);
+        TextView numberNote = view.findViewById(R.id.title_create);
+        Button createNote = view.findViewById(R.id.btn_create_note);
         noteDatePlan = view.findViewById(R.id.note_date_plan);
-        datePicker = view.findViewById(R.id.datePicker);
+        DatePicker datePicker = view.findViewById(R.id.datePicker);
         Calendar today = Calendar.getInstance();
 
         datePicker.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
