@@ -23,6 +23,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     private int longClickedPosition = -1;
     private NotesRepository notesRepository;
 
+
     public NotesAdapter(Fragment fragment) {
         this.fragment = fragment;
 
@@ -31,6 +32,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
             notesRepository = activity.getNotesRepository();
         }
     }
+
 
     public void addData(Note note) {
         notesRepository.addNote(note);

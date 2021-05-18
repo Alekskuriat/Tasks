@@ -10,6 +10,7 @@ import com.example.tasks.TimeAndDate.TimeAndDate;
 
 public class Note implements Parcelable {
 
+    private String id;
     private String name;
     private String content;
     private final String dateTime;
@@ -22,6 +23,15 @@ public class Note implements Parcelable {
         this.datePlan = datePlan;
         serialNumber = ++number;
         dateTime = new TimeAndDate().getTimeAndDate();
+    }
+
+
+    public Note(String name, String content, int number, String datePlan, String dateTime) {
+        this.name = name;
+        this.content = content;
+        this.datePlan = datePlan;
+        serialNumber = number;
+        this.dateTime = dateTime;
     }
 
 
@@ -79,5 +89,13 @@ public class Note implements Parcelable {
 
     public String getDatePlan() {
         return datePlan;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

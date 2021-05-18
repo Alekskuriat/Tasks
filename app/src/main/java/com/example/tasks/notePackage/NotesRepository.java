@@ -4,46 +4,56 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.tasks.ActivityAndFragments.Save;
+import com.example.tasks.FireStore.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NotesRepository implements Parcelable {
 
-    private ArrayList<Note> notes = new ArrayList<>();
+    private List<Note> notes = new ArrayList<>();
 
     public NotesRepository() {
 
     }
 
-
     public void addNote(Note note) {
         notes.add(note);
     }
+    public void addNote(Callback<Note> callback) {
 
-    public void editNote(Note note){
+    }
+
+    public void editNote(Note note) {
         for (int i = 0; i < notes.size(); i++) {
-            if(note.getSerialNumber().equals(notes.get(i).getSerialNumber())){
-                notes.set(i , note);
+            if (note.getSerialNumber().equals(notes.get(i).getSerialNumber())) {
+                notes.set(i, note);
             }
         }
     }
 
 
-    public Note getNote(int index){
-        if (notes.size() > 0){
+    public Note getNote(int index) {
+        if (notes.size() > 0) {
             return notes.get(index - 1);
         }
-      return null;
+        return null;
     }
 
+
     public void deleteNote(Note note) {
-        if (notes.size() > 0){
+        if (notes.size() > 0) {
             notes.remove(note);
         }
     }
 
-    public String getLastNumberNote(){
+    public void deleteNote(Note note, Callback<Object> callback) {
+        if (notes.size() > 0) {
+            notes.remove(note);
+        }
+    }
+
+    public String getLastNumberNote() {
         if (notes.size() > 0) {
             return notes.get(notes.size() - 1).getSerialNumber();
         } else return String.valueOf(0);
@@ -68,7 +78,11 @@ public class NotesRepository implements Parcelable {
     public List<Note> getNotes() {
         return notes;
     }
-    public void setNotes(ArrayList<Note> list) {
+    public void getNotes(Callback<List<Note>> callback) {
+
+    }
+
+    public void setNotes(List<Note> list) {
         notes = list;
     }
 
