@@ -131,6 +131,7 @@ public class DetailsNote extends Fragment implements Observer {
             Note note = fr.getArguments().getParcelable("ARG_NOTE");
 
             if (item.getItemId() == R.id.edit_btn_menu) {
+
                 editNote();
             }
 
@@ -159,10 +160,10 @@ public class DetailsNote extends Fragment implements Observer {
             assert fr.getArguments() != null;
             Note note = fr.getArguments().getParcelable("ARG_NOTE");
             if (item.getItemId() == R.id.edit_btn_menu) {
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, NoteEditFragment.newInstance(note))
-                        .addToBackStack(null)
-                        .commit();
+                NoteEditFragment dialogFragmentEdit = NoteEditFragment.newInstance(note);
+                dialogFragmentEdit.show(getParentFragmentManager(),
+                        "dialog_fragment");
+
             }
             if (item.getItemId() == R.id.delete_btn_menu) {
                 notesRepository.deleteNote(note);

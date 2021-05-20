@@ -20,10 +20,11 @@ import androidx.fragment.app.FragmentManager;
 import com.example.tasks.R;
 import com.example.tasks.notePackage.Note;
 import com.example.tasks.notePackage.NotesRepository;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.Calendar;
 
-public class NoteEditFragment extends Fragment {
+public class NoteEditFragment extends BottomSheetDialogFragment {
 
     private static final String ARG_NOTE = "ARG_NOTE";
     private boolean isLandscape = false;
@@ -34,6 +35,7 @@ public class NoteEditFragment extends Fragment {
     private TextView noteDatePlan;
     private NotesRepository notesRepository;
     private DatePicker datePicker;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -116,7 +118,10 @@ public class NoteEditFragment extends Fragment {
                             .commit();
                 } else {
                     notesRepository.editNote(newNote);
-                    Toast.makeText(requireContext(), "Сохранено", Toast.LENGTH_SHORT).show();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, DetailsNote.newInstance(newNote), "details")
+                            .commit();
+                    dismiss();
 
                 }
                 if (getActivity() != null)

@@ -21,10 +21,11 @@ import com.example.tasks.notePackage.NotesAdapter;
 import com.example.tasks.R;
 import com.example.tasks.notePackage.Note;
 import com.example.tasks.notePackage.NotesRepository;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.Calendar;
 
-public class NoteCreateFragments extends Fragment {
+public class NoteCreateFragments extends BottomSheetDialogFragment {
 
 
     private boolean isLandscape = false;
@@ -33,6 +34,11 @@ public class NoteCreateFragments extends Fragment {
     private NotesAdapter adapter;
     private TextView noteDatePlan;
     private NotesRepository notesRepository;
+
+
+    public static NoteCreateFragments newInstance() {
+        return new NoteCreateFragments();
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,15 +93,22 @@ public class NoteCreateFragments extends Fragment {
                             .replace(R.id.details_fragment, DetailsNote.newInstance(note))
                             .replace(R.id.list_fragment, new NotesList())
                             .commit();
+                    dismiss();
 
                 } else {
-                    adapter.addData(note);
 
+                    adapter.addData(note);
                     if (getActivity() != null)
                         Save.save(getActivity());
 
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    fragmentManager.popBackStack();
+                    FragmentManager fragmentManager = getParentFragmentManager();
+                    Fragment fragment = fragmentManager.findFragmentById(R.id.container);
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, new NotesList())
+                            .commitNow();
+
+                    dismiss();
+
                 }
 
             }
@@ -106,6 +119,7 @@ public class NoteCreateFragments extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.note_create_fragment, container, false);
+        return inflater.inflate(R.layout.note_create_fragment, container,
+                false);
     }
 }

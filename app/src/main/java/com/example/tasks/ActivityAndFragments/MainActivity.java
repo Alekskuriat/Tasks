@@ -65,22 +65,7 @@ public class MainActivity extends AppCompatActivity implements NoteClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//loadDate();
-        repository.getNotes(new Callback<List<Note>>() {
-            public void onSuccess(List<Note> value){
-                notesRepository.setNotes(value);
-            }
-
-            public void onError(Throwable error){
-
-            }
-        });
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        loadDate();
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -121,10 +106,12 @@ public class MainActivity extends AppCompatActivity implements NoteClickListener
                             .addToBackStack("1")
                             .commit();
                 } else {
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.container, new NoteCreateFragments())
-                            .addToBackStack("1")
-                            .commit();
+
+                    NoteCreateFragments dialogFragment = NoteCreateFragments.newInstance();
+
+                    dialogFragment.show(getSupportFragmentManager(),
+                            "dialog_fragment");
+
                 }
             }
         });

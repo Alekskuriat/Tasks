@@ -5,6 +5,7 @@
     <string name="line">- - - - - - - - - - - - - - - - - - - - - - - - - - -</string>
     <string name="add_note">Добавить заметку</string>
     <string name="delete">Удалить</string>
+    <string name="cancel">Отменить</string>
     <string name="edit">Редактировать</string>
     <string name="action_search">action_one</string>
     <string name="action_one">action_search</string>
